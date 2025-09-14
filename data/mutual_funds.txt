@@ -1,0 +1,10 @@
+A mutual fund pools money from multiple investors and invests it in stocks, bonds, or other securities. They are professionally managed and allow diversification with small amounts of capital. 
+
+Types of mutual funds include:
+- Equity funds: Higher risk, higher potential returns, suitable for long-term goals.
+- Debt funds: Lower risk, stable returns, suitable for short-term goals.
+- Hybrid funds: Mix of equity and debt for balanced investors.
+
+Mutual funds charge an expense ratio for management. Investors should match the type of fund with their risk profile and goals.
+
+Source: SEBI Mutual Funds Handbook

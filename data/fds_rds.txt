@@ -1,0 +1,7 @@
+Fixed Deposits (FDs) are investment options provided by banks where a lump sum is deposited for a fixed tenure at a predetermined interest rate. They guarantee principal safety and assured returns, making them suitable for conservative investors. The interest rate is higher than a savings account but lower compared to riskier assets.
+
+Recurring Deposits (RDs) allow investors to deposit a fixed amount monthly for a specified period. They are useful for salaried individuals who want disciplined savings with assured returns.
+
+Both FDs and RDs are covered under deposit insurance (up to ₹5 lakh per depositor per bank). However, they provide relatively lower post-tax returns compared to equity-linked products.
+
+Source: RBI Banking Basics

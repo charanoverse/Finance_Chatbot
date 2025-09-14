@@ -1,0 +1,137 @@
+[
+  {
+    "filename": "budgeting.txt",
+    "chunk_id": 0,
+    "content": "Budgeting is the process of planning income and expenses to ensure financial discipline. A popular approach is the 50-30-20 rule: - 50% of income: Needs (housing, food, bills). - 30% of income: Wants (entertainment, lifestyle). - 20% of income: Savings and investments. Budgeting helps avoid overspending,"
+  },
+  {
+    "filename": "budgeting.txt",
+    "chunk_id": 1,
+    "content": "reduce debt, and achieve long-term goals. Beginners can start by tracking daily expenses for a few months to identify patterns. Apps and digital tools can make this easier. A budget should be flexible but consistent, reviewed monthly, and aligned with financial priorities. Source: SEBI Investor Awareness"
+  },
+  {
+    "filename": "debt_instruments.txt",
+    "chunk_id": 0,
+    "content": "Debt instruments are investments where investors lend money to an entity (government, company, bank) in return for interest payments. Examples include bonds, debentures, and debt mutual funds. Debt provides predictable returns with lower risk than equity, but inflation may reduce real returns. Credit"
+  },
+  {
+    "filename": "debt_instruments.txt",
+    "chunk_id": 1,
+    "content": "risk (borrower default) and interest rate risk (value falling when rates rise) must be considered. Debt is suitable for conservative investors and for balancing equity-heavy portfolios. Source: RBI Financial Basics"
+  },
+  {
+    "filename": "emergency_fund.txt",
+    "chunk_id": 0,
+    "content": "An emergency fund is money set aside to cover unexpected expenses such as medical bills, car repairs, or job loss. Financial planners recommend keeping 3–6 months’ worth of living expenses in a liquid form such as a savings account, FD, or liquid mutual fund. The goal of an emergency fund is financial"
+  },
+  {
+    "filename": "emergency_fund.txt",
+    "chunk_id": 1,
+    "content": "security, ensuring that sudden costs do not force investors to liquidate long-term assets or take loans. This fund should be accessible, low risk, and not tied to volatile investments like equities. Building an emergency fund should be the first financial step before investing for long-term goals. Source:"
+  },
+  {
+    "filename": "emergency_fund.txt",
+    "chunk_id": 2,
+    "content": "SEBI Financial Education"
+  },
+  {
+    "filename": "equity_basics.txt",
+    "chunk_id": 0,
+    "content": "Equity represents ownership in a company. Investors who buy shares are partial owners and can benefit from dividends and price appreciation. Equity is considered high risk because stock prices fluctuate based on company performance, market sentiment, and economic factors. Over long periods, equity tends"
+  },
+  {
+    "filename": "equity_basics.txt",
+    "chunk_id": 1,
+    "content": "to outperform other asset classes, but in the short term, it can be volatile. Equity is suitable for long-term wealth creation, but investors should diversify across sectors and avoid speculative trading. Source: NSE Investor Education"
+  },
+  {
+    "filename": "fds_rds.txt",
+    "chunk_id": 0,
+    "content": "Fixed Deposits (FDs) are investment options provided by banks where a lump sum is deposited for a fixed tenure at a predetermined interest rate. They guarantee principal safety and assured returns, making them suitable for conservative investors. The interest rate is higher than a savings account but"
+  },
+  {
+    "filename": "fds_rds.txt",
+    "chunk_id": 1,
+    "content": "lower compared to riskier assets. Recurring Deposits (RDs) allow investors to deposit a fixed amount monthly for a specified period. They are useful for salaried individuals who want disciplined savings with assured returns. Both FDs and RDs are covered under deposit insurance (up to ₹5 lakh per depositor"
+  },
+  {
+    "filename": "fds_rds.txt",
+    "chunk_id": 2,
+    "content": "per bank). However, they provide relatively lower post-tax returns compared to equity-linked products. Source: RBI Banking Basics"
+  },
+  {
+    "filename": "financial_goals.txt",
+    "chunk_id": 0,
+    "content": "Financial goals are targets individuals set for saving and investing. They can be classified as: - Short-term (1–3 years): Vacation, emergency fund, buying a gadget. - Medium-term (3–7 years): Home down payment, higher education. - Long-term (7+ years): Retirement, wealth creation. Each goal requires"
+  },
+  {
+    "filename": "financial_goals.txt",
+    "chunk_id": 1,
+    "content": "a different investment strategy. Short-term goals should use safe, liquid options, while long-term goals can use equities for higher growth. Aligning investments with goals prevents ad-hoc decisions. Source: SEBI Financial Literacy Material"
+  },
+  {
+    "filename": "insurance.txt",
+    "chunk_id": 0,
+    "content": "Insurance protects against financial losses due to unforeseen events. The most important type for individuals is term life insurance, which offers high coverage at a low premium but pays out only in case of death. Other types include: - Health insurance: Covers hospitalization expenses. - ULIPs: Insurance"
+  },
+  {
+    "filename": "insurance.txt",
+    "chunk_id": 1,
+    "content": "+ investment but with higher costs. - General insurance: Covers assets like vehicles or property. Term insurance is recommended as the foundation, while ULIPs should be approached cautiously due to charges. Source: IRDAI Consumer Guide"
+  },
+  {
+    "filename": "mutual_funds.txt",
+    "chunk_id": 0,
+    "content": "A mutual fund pools money from multiple investors and invests it in stocks, bonds, or other securities. They are professionally managed and allow diversification with small amounts of capital. Types of mutual funds include: - Equity funds: Higher risk, higher potential returns, suitable for long-term"
+  },
+  {
+    "filename": "mutual_funds.txt",
+    "chunk_id": 1,
+    "content": "goals. - Debt funds: Lower risk, stable returns, suitable for short-term goals. - Hybrid funds: Mix of equity and debt for balanced investors. Mutual funds charge an expense ratio for management. Investors should match the type of fund with their risk profile and goals. Source: SEBI Mutual Funds Handbook"
+  },
+  {
+    "filename": "retirement_planning.txt",
+    "chunk_id": 0,
+    "content": "Retirement planning involves building a corpus to cover expenses after active income stops. Key steps include estimating future expenses, accounting for inflation, and investing regularly. Common instruments: - EPF and PPF: Safe, government-backed, long-term. - NPS: Market-linked pension scheme with"
+  },
+  {
+    "filename": "retirement_planning.txt",
+    "chunk_id": 1,
+    "content": "tax benefits. - Equity Mutual Funds: For long-term growth potential. - Annuities: Provide post-retirement regular income. Starting early allows the power of compounding to build a larger retirement fund with smaller contributions. Source: PFRDA NPS Guide"
+  },
+  {
+    "filename": "risk_explained.txt",
+    "chunk_id": 0,
+    "content": "Investment risk refers to the possibility of losing some or all of the invested capital. Risks can be categorized as: - Low Risk: Bank deposits, government bonds. Provide steady but low returns. - Medium Risk: Debt mutual funds, balanced funds. Offer moderate stability and returns. - High Risk: Equity,"
+  },
+  {
+    "filename": "risk_explained.txt",
+    "chunk_id": 1,
+    "content": "cryptocurrencies, derivatives. Can deliver high growth but with high volatility. Investors should match risk levels with their financial goals, age, and income stability. Risk tolerance generally decreases with age or near-term financial needs. Source: SEBI Investor Education"
+  },
+  {
+    "filename": "sip_basics.txt",
+    "chunk_id": 0,
+    "content": "Systematic Investment Plan (SIP) is a method of investing a fixed sum regularly in a mutual fund scheme. By investing monthly or quarterly, investors can average out the cost of purchase and benefit from compounding. SIPs promote financial discipline and are ideal for long-term wealth creation, especially"
+  },
+  {
+    "filename": "sip_basics.txt",
+    "chunk_id": 1,
+    "content": "for salaried individuals. SIPs are linked to market performance, so returns are not guaranteed. However, they help reduce the effect of short-term volatility. SIPs can be tailored to suit different risk levels by choosing equity, debt, or hybrid mutual funds. They are especially recommended for young"
+  },
+  {
+    "filename": "sip_basics.txt",
+    "chunk_id": 2,
+    "content": "investors who can stay invested for 5–10 years or longer. Source: AMFI Investor Education"
+  },
+  {
+    "filename": "tax_basics.txt",
+    "chunk_id": 0,
+    "content": "Taxes are mandatory contributions to the government. For individuals, income tax is levied on salary, business, or other income. Basic tax-saving instruments include: - Section 80C: Investments like ELSS mutual funds, PPF, and life insurance premiums (limit ₹1.5 lakh). - Section 80D: Health insurance"
+  },
+  {
+    "filename": "tax_basics.txt",
+    "chunk_id": 1,
+    "content": "premiums. - NPS: Deductions under Section 80CCD. Investors should choose tax-saving options that align with their risk profile and goals rather than investing only for tax purposes. Source: Income Tax Department of India"
+  }
+]
