@@ -4,7 +4,7 @@ import google.generativeai as genai
 # -----------------------------
 # CONFIG
 # -----------------------------
-DEFAULT_MODEL = "gemini-2.5-flash"  # or "gemini-pro" depending on your access
+DEFAULT_MODEL = "gemini-1.5-flash"  # or "gemini-pro" depending on your access
 FALLBACK_RESPONSE = "I'm sorry, but I couldn't process your request at this time."
 
 # Load your API key from environment variable or replace with your actual key
@@ -19,7 +19,7 @@ def call_llm(messages: list, model: str = DEFAULT_MODEL) -> str:
 
     Args:
         messages (list): list of dicts: {"role": "system"/"user", "content": str}
-        model (str): Gemini model, default "gemini-2.5-flash"
+        model (str): Gemini model, default "gemini-2.5-pro"
 
     Returns:
         str: assistant response

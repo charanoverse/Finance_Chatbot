@@ -1,0 +1,50 @@
+gemini-1.5-flash
+{
+  "query": "FD rates of SBI and HDFC",
+  "profile": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  }
+}
+
+{
+  "answer": "Here’s the latest data I found: [{'bank': 'sbi', 'rates': '```json\\n{\"bank\": \"sbi\", \"1yr\": \"7.10%\", \"2yr\": \"7.25%\", \"5yr\": \"7.50%\"}\\n```', 'source': 'gemini', 'timestamp': '2025-09-15T13:40:40.084206+05:30'}, {'bank': 'hdfc', 'rates': '```json\\n{\"bank\": \"hdfc\", \"1yr\": \"7.00%\", \"2yr\": \"7.25%\", \"5yr\": \"7.50%\"}\\n```', 'source': 'gemini', 'timestamp': '2025-09-15T13:40:48.779985+05:30'}]",
+  "sources": [
+    "realtime_api"
+  ],
+  "profile_used": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  },
+  "blocked": false
+}
+
+
+gemini 2.5-pro
+{
+  "query": "FD rates of SBI and HDFC",
+  "profile": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  }
+}
+
+{
+  "answer": "Here’s the latest data I found: [{'bank': 'sbi', 'rates': '```json\\n{\"bank\": \"sbi\", \"1yr\": \"6.80%\", \"2yr\": \"7.00%\", \"5yr\": \"6.50%\"}\\n```', 'source': 'gemini', 'timestamp': '2025-09-15T13:52:15.859275+05:30'}, {'bank': 'hdfc', 'rates': '```json\\n{\\n  \"bank\": \"hdfc\",\\n  \"1yr\": \"6.60%\",\\n  \"2yr\": \"7.00%\",\\n  \"5yr\": \"7.00%\"\\n}\\n```', 'source': 'gemini', 'timestamp': '2025-09-15T13:52:54.649903+05:30'}]",
+  "sources": [
+    "realtime_api"
+  ],
+  "profile_used": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  },
+  "blocked": false
+}

@@ -53,11 +53,29 @@ Instructions:
     return textwrap.dedent(prompt).strip()
 
 
-def make_chat_messages(query, docs, profile):
+def make_chat_messages(query, docs, profile, live_data=None):
     """
     Convert into chat messages format (for OpenAI/Anthropic API).
+    Optionally prepend a Live Data block if live_data is provided.
     """
-    prompt = make_prompt(query, docs, profile)
+    live_block = ""
+    if live_data:
+        entries = []
+        for item in live_data:
+            if item.get("type") == "stock":
+                entries.append(f"[LIVE: {item['source']}] {item['symbol']} price {item['price']} {item.get('currency','')}, as of {item['timestamp']}")
+            elif item.get("bank"):
+                entries.append(f"[LIVE: {item['source']}] {item['bank']} rates (raw): {item.get('rates_raw')}")
+            else:
+                entries.append(str(item))
+        live_block = "Live Data:\n" + "\n".join(entries) + "\n\n"
+
+    prompt = (
+        live_block +
+        "Use the LIVE DATA section first (trusted, current). Cite live items as [live:source].\n"
+        "If live data conflicts with KB documents, prefer live data for numeric values but still reference KB for context.\n\n" +
+        make_prompt(query, docs, profile)
+    )
     return [
         {"role": "system", "content": "You are a helpful financial assistant."},
         {"role": "user", "content": prompt}
