@@ -38,7 +38,7 @@ def try_realtime(query: str):
     """Detect if query requires realtime info and fetch it."""
     q_lower = query.lower()
 
-        # -----------------------------
+    # -----------------------------
     # Stocks
     # -----------------------------
     if "stock" in q_lower or "share" in q_lower or any(sym in q_lower for sym in ["nse", "bse", ".ns", ".bo"]):
@@ -51,16 +51,34 @@ def try_realtime(query: str):
             "icici": "ICICIBANK",
             "axis": "AXISBANK",
             "kotak": "KOTAKBANK",
-            "idfc": "IDFCFIRSTB"
+            "idfc": "IDFCFIRSTB",
+            "indigo": "INDIGO",
+            "tata motors": "TATAMOTORS",
+            "tata steel": "TATASTEEL",
+            "wipro": "WIPRO",
+            "zomato":"ETERNAL",
+            "bharat electronics ltd": "BEL",
+            "itc ltd": "ITC",
+            "reliance industries": "RELIANCE",
+            "reliance industries ltd": "RELIANCE",
+            "reliance industries limited": "RELIANCE",
         }
+
         ticker = None
-        for name, symbol in ticker_map.items():
+        for name in sorted(ticker_map.keys(), key=lambda x: -len(x)):
             if name in q_lower:
-                ticker = symbol
+                ticker = ticker_map[name]
+                break
+
+        for token in q_lower.replace(",", " ").split():
+            tok = token.strip().upper()
+            if len(tok) >= 2 and tok.isalnum() and tok in set(ticker_map.values()):
+                ticker = tok
                 break
 
         if ticker:
             return [fetcher.fetch_stock_price(ticker)]
+
     # -----------------------------
     # Fixed Deposits
     # -----------------------------
@@ -75,10 +93,31 @@ def try_realtime(query: str):
     # -----------------------------
     # Mutual Funds
     # -----------------------------
+        # -----------------------------
+    # Mutual Funds
+    # -----------------------------
+        # -----------------------------
+    # Mutual Funds
+    # -----------------------------
     if "mutual fund" in q_lower or "nav" in q_lower:
-        return [fetcher.fetch_mf_nav("sample_scheme")]  # TODO: detect scheme dynamically
+        # Try to detect scheme code (numeric)
+        tokens = q_lower.replace("?", "").replace(",", "").split()
+        scheme_identifier = None
 
-    return None
+        for tok in tokens:
+            if tok.isdigit():  # e.g., "120503"
+                scheme_identifier = tok
+                break
+
+        # If no scheme code, use the whole query as scheme name
+        if not scheme_identifier:
+            # strip extra words like "what", "is", etc.
+            # just pass query as-is for partial name matching
+            scheme_identifier = query  
+
+        return [fetcher.fetch_mf_nav(scheme_identifier)]
+
+
 
 
 # -----------------------------

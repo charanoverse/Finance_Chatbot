@@ -48,3 +48,114 @@ gemini 2.5-pro
   },
   "blocked": false
 }
+
+
+share prices:
+
+{
+  "query": "What is the share price of HDFC?",
+  "profile": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  }
+}
+
+{
+  "answer": "Here’s the latest data I found: [{'ticker': 'HDFCBANK', 'price': 967.9, 'currency': 'INR', 'timestamp': '2025-09-16T15:13:30.949352+05:30', 'source': 'nseindia'}]",
+  "sources": [
+    "realtime_api"
+  ],
+  "profile_used": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  },
+  "blocked": false
+}
+
+
+
+{
+  "query": "What is the share price of Reliance?",
+  "profile": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  }
+}
+
+{
+  "answer": "Here’s the latest data I found: [{'ticker': 'RELIANCE', 'price': 1406.4, 'currency': 'INR', 'timestamp': '2025-09-16T15:15:03.300481+05:30', 'source': 'nseindia'}]",
+  "sources": [
+    "realtime_api"
+  ],
+  "profile_used": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  },
+  "blocked": false
+}
+
+
+=========
+
+MF
+
+{
+  "query": "What is the NAV of 145834 mutual fund",
+  "profile": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  }
+}
+
+
+{
+  "answer": "Here’s the latest data I found: [{'scheme_code': '145834', 'scheme_name': 'Motilal Oswal Liquid Fund - Direct Growth', 'nav': 14.0965, 'currency': 'INR', 'date': '15-Sep-2025', 'timestamp': '2025-09-16T16:22:43.465619+05:30', 'source': 'amfi'}]",
+  "sources": [
+    "realtime_api"
+  ],
+  "profile_used": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  },
+  "blocked": false
+}
+
+
+
+
+{
+  "query": "What is the NAV of 119551 mutual fund",
+  "profile": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  }
+}
+
+
+{
+  "answer": "Here’s the latest data I found: [{'scheme_code': '119551', 'scheme_name': 'Aditya Birla Sun Life Banking & PSU Debt Fund  - DIRECT - IDCW', 'nav': 108.3802, 'currency': 'INR', 'date': '15-Sep-2025', 'timestamp': '2025-09-16T16:22:05.674860+05:30', 'source': 'amfi'}]",
+  "sources": [
+    "realtime_api"
+  ],
+  "profile_used": {
+    "age": 28,
+    "income": "6-10 LPA",
+    "risk": "medium",
+    "goal": "retirement"
+  },
+  "blocked": false
+}
