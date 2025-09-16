@@ -46,9 +46,7 @@ Instructions:
 2. Include at least one inline citation using [source: filename].
 3. Add one actionable suggestion as a bullet point.
 4. If the documents don’t cover the topic, respond: 
-   "The available information does not directly cover your query. Please consult a financial advisor."
-5. End with this disclaimer line:
-   "Disclaimer: This is general information, not financial advice."
+   "The available information does not directly cover your query. Please consult a financial advisor.""
     """
     return textwrap.dedent(prompt).strip()
 

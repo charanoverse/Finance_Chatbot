@@ -5,6 +5,7 @@ from .safety import check_safety
 from .retriever import Retriever
 from .personalizer import make_chat_messages
 from .llm import call_llm
+from .llm import shorten_answer
 from .realtime import RealtimeFetcher
 
 app = FastAPI(title="Personalized Finance Chatbot")
@@ -150,10 +151,26 @@ def chat_endpoint(request: ChatRequest):
     # 4. Personalized prompt
     messages = make_chat_messages(query, docs, profile)
 
-    # 5. Call LLM
+    # 5. Call LLM with KB context
     answer = call_llm(messages)
+    answer = shorten_answer(answer, max_sentences=3)
 
-    # 6. Sources
-    sources = [doc["source"] for doc in docs]
+    # 6. Detect fallback/irrelevant answers → retry directly with Gemini
+    FALLBACK_PATTERNS = [
+        "does not directly cover your query",
+        "please consult a financial advisor",
+        "information not available",
+    ]
+
+    if any(pat.lower() in answer.lower() for pat in FALLBACK_PATTERNS):
+        # Retry with direct Gemini call, no KB context
+        direct_messages = [
+            {"role": "system", "content": "You are a helpful financial assistant."},
+            {"role": "user", "content": query},
+        ]
+        answer = call_llm(direct_messages)
+        sources = ["gemini_fallback"]
+    else:
+        sources = [doc["source"] for doc in docs]
 
     return ChatResponse(answer=answer, sources=sources, profile_used=profile)

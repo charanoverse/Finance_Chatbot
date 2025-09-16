@@ -4,7 +4,7 @@ import re
 BANNED_PATTERNS = [
     r"get[- ]?rich[- ]?quick",
     r"guaranteed returns?",
-    r"double your money",
+    r"double (your|the) money",
     r"illegal",
     r"tax evasion",
     r"scam",
@@ -17,7 +17,6 @@ SENSITIVE_PATTERNS = [
 ]
 
 DISCLAIMER = "This is educational advice, not financial advice. Please consult a certified advisor."
-
 def check_safety(query: str):
     """
     Check query for compliance & safety.
@@ -30,12 +29,18 @@ def check_safety(query: str):
     # Rule 1: Hard block
     for pat in BANNED_PATTERNS:
         if re.search(pat, q_lower):
-            return False, f"Your request cannot be processed because it promotes unsafe or misleading financial practices. {DISCLAIMER}"
+            return False, (
+                "Your request cannot be processed because it promotes unsafe or misleading "
+                f"financial practices. {DISCLAIMER}"
+            )
 
     # Rule 2: Sensitive (flag but allow fallback response)
     for pat in SENSITIVE_PATTERNS:
         if re.search(pat, q_lower):
-            return False, f"Your query involves sensitive {pat.strip('\\\\b')} topics. Please seek certified advice. {DISCLAIMER}"
+            return False, (
+                f"Your query involves sensitive {pat.strip('\\\\b')} topics. "
+                f"Please seek certified advice. {DISCLAIMER}"
+            )
 
     # Rule 3: Default safe
     return True, None

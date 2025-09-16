@@ -14,32 +14,45 @@ genai.configure(api_key="AIzaSyCkdSw_rqIA90LlOf_nu48je_dM1Tw04jw")
 # LLM WRAPPER
 # -----------------------------
 def call_llm(messages: list, model: str = DEFAULT_MODEL) -> str:
-    """
-    Call Google Gemini API to generate a response.
-    Args:
-        messages (list): list of dicts: {"role": "system"/"user", "content": str}
-        model (str): Gemini model, default "gemini-2.5-flash"
-    Returns:
-        str: assistant response
-    """
     try:
         model_instance = genai.GenerativeModel(model)
-        # Convert structured messages into a single prompt
+
+        # ✅ Crispness instruction
+        crisp_instruction = (
+            "You are a helpful financial assistant. "
+            "Always answer in a short, crisp, and simple way (max 3 sentences). "
+            "Avoid long explanations, keep it clear and to the point."
+        )
+
+        # If system message exists, append instruction
+        if messages and messages[0]["role"] == "system":
+            messages[0]["content"] += " " + crisp_instruction
+        else:
+            messages.insert(0, {"role": "system", "content": crisp_instruction})
+
+        # Convert structured messages into prompt
         prompt = "\n".join([f"{m['role'].upper()}: {m['content']}" for m in messages])
         response = model_instance.generate_content(prompt)
+
         return response.text.strip()
     except Exception as e:
         print(f"[LLM ERROR] {e}")
         return FALLBACK_RESPONSE
 
+
+
+def shorten_answer(answer: str, max_sentences: int = 3) -> str:
+    sentences = answer.split(". ")
+    return ". ".join(sentences[:max_sentences]).strip() + "."
 # -----------------------------
 # TEST RUN
 # -----------------------------
 if __name__ == "__main__":
     test_messages = [
-        {"role": "system", "content": "You are a helpful financial assistant."},  # Optional — Gemini may ignore this
-        {"role": "user", "content": "What is a Systematic Investment Plan (SIP)?"}
-    ]
+    {"role": "system", "content": "You are a financial assistant. Always answer in a short, simple, and crisp way (2–4 sentences max)."},
+    {"role": "user", "content": "What is a Systematic Investment Plan (SIP)?"}
+]
+
 
     reply = call_llm(test_messages)
     print("Assistant's reply:\n", reply)
