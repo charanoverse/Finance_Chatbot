@@ -8,7 +8,7 @@ DEFAULT_MODEL = "gemini-2.5-flash"  # or "gemini-pro" depending on your access
 FALLBACK_RESPONSE = "I'm sorry, but I couldn't process your request at this time."
 
 # Load your API key from environment variable or replace with your actual key
-genai.configure(api_key="AIzaSyCkdSw_rqIA90LlOf_nu48je_dM1Tw04jw")
+genai.configure(api_key="Replace_with_api_key")
 
 # -----------------------------
 # LLM WRAPPER
