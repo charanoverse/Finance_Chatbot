@@ -1,2 +1,3 @@
 pip install -r requirements.txt
 python -m uvicorn src.app:app --reload
+frontend: npm start

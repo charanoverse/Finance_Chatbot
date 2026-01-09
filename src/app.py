@@ -1,12 +1,15 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+from typing import Optional
+from .llm import shorten_answer, call_llm
 from .safety import check_safety
 from .retriever import Retriever
 from .personalizer import make_chat_messages
-from .llm import call_llm
-from .llm import shorten_answer
 from .realtime import RealtimeFetcher
+from fastapi.middleware.cors import CORSMiddleware
+from pymongo import MongoClient
+from bson import ObjectId
+import datetime
 
 app = FastAPI(title="Personalized Finance Chatbot")
 
@@ -14,22 +17,39 @@ app = FastAPI(title="Personalized Finance Chatbot")
 # Load modules
 # -----------------------------
 retriever = Retriever(index_dir="C:/Users/Admin/Desktop/Finance_bot/index")
-fetcher = RealtimeFetcher()  # for real-time data
+fetcher = RealtimeFetcher()
 
+# -----------------------------
+# MongoDB Setup
+# -----------------------------
+client = MongoClient("mongodb://localhost:27017")
+db = client["finance_chatbot"]
+goals_collection = db["goals"]
 
 # -----------------------------
 # Request / Response Models
 # -----------------------------
 class ChatRequest(BaseModel):
     query: str
-    profile: dict  # e.g., {"age":28, "income":"6-10 LPA", "risk":"medium", "goal":"retirement"}
-
+    profile: dict
 
 class ChatResponse(BaseModel):
     answer: str
     sources: list
     profile_used: dict
     blocked: bool = False
+
+class GoalRequest(BaseModel):
+    user: str
+    goal_name: str
+    target_amount: float
+    duration_months: int
+    salary: float
+
+class SaveRequest(BaseModel):
+    user: str
+    goal_id: str
+    amount_saved: float
 
 
 # -----------------------------
@@ -120,7 +140,6 @@ def try_realtime(query: str):
 
 
 
-
 # -----------------------------
 # Chat Endpoint
 # -----------------------------
@@ -154,7 +173,6 @@ def chat_endpoint(request: ChatRequest):
     # 5. Call LLM with KB context
     answer = call_llm(messages)
     answer = shorten_answer(answer, max_sentences=3)
-
     # 6. Detect fallback/irrelevant answers → retry directly with Gemini
     FALLBACK_PATTERNS = [
         "does not directly cover your query",
@@ -174,3 +192,83 @@ def chat_endpoint(request: ChatRequest):
         sources = [doc["source"] for doc in docs]
 
     return ChatResponse(answer=answer, sources=sources, profile_used=profile)
+
+## -----------------------------
+# Create Goal
+# -----------------------------
+@app.post("/goal")
+def create_goal(goal: GoalRequest):
+    monthly_required = goal.target_amount / goal.duration_months
+
+    goal_doc = {
+        "user": goal.user,
+        "goal_name": goal.goal_name,
+        "target_amount": goal.target_amount,
+        "duration_months": goal.duration_months,
+        "salary": goal.salary,
+        "monthly_required": monthly_required,
+        "saved_amount": 0.0,
+        "savings_history": [],
+        "created_at": datetime.datetime.utcnow(),
+    }
+
+    res = goals_collection.insert_one(goal_doc)
+    goal_doc["_id"] = str(res.inserted_id)
+
+    return {"message": "Goal created successfully", "goal": goal_doc}
+
+# -----------------------------
+# Save Progress
+# -----------------------------
+@app.post("/goal/save")
+def save_progress(data: SaveRequest):
+    goal = goals_collection.find_one(
+        {"_id": ObjectId(data.goal_id), "user": data.user}
+    )
+
+    if not goal:
+        return {"error": "Goal not found"}
+
+    new_saved = goal["saved_amount"] + data.amount_saved
+
+    goals_collection.update_one(
+        {"_id": ObjectId(data.goal_id)},
+        {
+            "$set": {"saved_amount": new_saved},
+            "$push": {
+                "savings_history": {
+                    "amount": data.amount_saved,
+                    "date": datetime.datetime.utcnow(),
+                }
+            },
+        },
+    )
+
+    progress = (new_saved / goal["target_amount"]) * 100
+
+    return {
+        "message": f"Progress updated: {progress:.2f}%",
+        "saved_amount": new_saved,
+        "progress": progress,
+    }
+
+# -----------------------------
+# Get All Goals for User
+# -----------------------------
+@app.get("/goal/{user}")
+def get_goals(user: str):
+    goals = list(goals_collection.find({"user": user}))
+    for g in goals:
+        g["_id"] = str(g["_id"])
+    return goals
+
+# -----------------------------
+# CORS
+# -----------------------------
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
