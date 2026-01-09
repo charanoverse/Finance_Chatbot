@@ -1,0 +1,10 @@
+# Node
+frontend/node_modules/
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+
+# Optional: environment / local files
+progress.json
