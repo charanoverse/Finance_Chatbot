@@ -24,23 +24,41 @@ class Retriever:
         # Load embedding model
         self.model = SentenceTransformer(model_name)
 
-    def retrieve(self, query, top_k=3):
-        """Return top_k results for query."""
+    def retrieve(self, query, top_k=3, intent=None, allowed_docs=None):
+        """
+        Return top_k results for query, optionally filtered by intent.
+        
+        Args:
+            query: Search query
+            top_k: Number of results to return
+            intent: Intent classification (optional)
+            allowed_docs: List of allowed document filenames (optional)
+        """
         query_emb = self.model.encode([query]).astype("float32")
 
-        # Search FAISS index
-        distances, indices = self.index.search(query_emb, top_k)
+        # Search FAISS index (get more results for filtering)
+        search_k = top_k * 3 if allowed_docs else top_k
+        distances, indices = self.index.search(query_emb, search_k)
 
         results = []
         for score, idx in zip(distances[0], indices[0]):
             if idx == -1:
                 continue
             meta = self.metadata[idx]
+            
+            # Filter by allowed docs if provided
+            if allowed_docs and meta["filename"] not in allowed_docs:
+                continue
+            
             results.append({
                 "content": meta["content"],
                 "source": meta["filename"],
                 "score": float(score)
             })
+            
+            # Stop when we have enough results
+            if len(results) >= top_k:
+                break
 
         return results
 

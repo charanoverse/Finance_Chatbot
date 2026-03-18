@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
+import { v4 as uuidv4 } from "uuid";
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -13,20 +14,16 @@ const Chat = () => {
   const [chatHistory, setChatHistory] = useState([
     {
       sender: "bot",
-      message: "Hello 👋 I’m FinPal. What’s your name?",
+      message: "Hello 👋 I'm FinPal, your financial assistant. Ask me anything about finance!",
       options: [],
     },
   ]);
   const [userInput, setUserInput] = useState("");
-  const [profileStep, setProfileStep] = useState("name");
-  const [profile, setProfile] = useState({
-    name: "",
-    ageRange: "",
-    incomeRange: "",
-    goal: "",
-  });
   const [botTyping, setBotTyping] = useState(false);
   const chatRef = useRef(null);
+
+  // Session ID for context tracking
+  const [sessionId] = useState(() => uuidv4());
 
   /* ================= GOALS ================= */
   const [user] = useState("guest");
@@ -72,68 +69,37 @@ const Chat = () => {
     setChatHistory((p) => [...p, { sender: "user", message: m }]);
 
   /* ================= CHAT FLOW ================= */
-  const handleSubmit = () => {
-    if (!userInput || botTyping) return;
-    addUserMessage(userInput);
-
-    if (profileStep === "name") {
-      setProfile({ ...profile, name: userInput });
-      setProfileStep("age");
-      addBotMessage(`Nice to meet you, ${userInput}! What’s your age range?`, [
-        "18–25",
-        "26–35",
-        "36–45",
-        "46–60",
-        "60+",
-      ]);
-    }
-
-    setUserInput("");
-  };
-
-  const handleOptionClick = (opt) => {
-    if (botTyping) return;
-    addUserMessage(opt);
-
-    if (profileStep === "age") {
-      setProfile({ ...profile, ageRange: opt });
-      setProfileStep("income");
-      addBotMessage("What’s your monthly income range?", [
-        "0–20,000",
-        "20,001–50,000",
-        "50,001–1,00,000",
-        "1,00,001–2,00,000",
-        "2,00,000+",
-      ]);
-    } else if (profileStep === "income") {
-      setProfile({ ...profile, incomeRange: opt });
-      setProfileStep("goal");
-      addBotMessage("What is your primary financial goal?", [
-        "Save money",
-        "Invest in stocks",
-        "Buy property",
-        "Plan retirement",
-      ]);
-    } else if (profileStep === "goal") {
-      setProfile({ ...profile, goal: opt });
-      setProfileStep("query");
-      addBotMessage("Great! You can now ask your financial question.");
-    }
-  };
-
   const sendQuery = async () => {
     if (!userInput || botTyping) return;
     addUserMessage(userInput);
     try {
       const res = await axios.post("http://localhost:8000/chat", {
         query: userInput,
-        profile,
+        profile: {},  // Empty profile - intent-driven mode
+        session_id: sessionId,  // Session ID for context tracking
       });
       addBotMessage(res.data.answer);
     } catch {
       addBotMessage("Unable to reach the server right now.");
     }
     setUserInput("");
+  };
+
+  const handleOptionClick = async (opt) => {
+    if (botTyping) return;
+    addUserMessage(opt);
+
+    // Treat option clicks as queries
+    try {
+      const res = await axios.post("http://localhost:8000/chat", {
+        query: opt,
+        profile: {},
+        session_id: sessionId,  // Session ID for context tracking
+      });
+      addBotMessage(res.data.answer);
+    } catch {
+      addBotMessage("Unable to reach the server right now.");
+    }
   };
 
   /* ================= GOAL APIs ================= */
@@ -233,11 +199,12 @@ const Chat = () => {
               style={theme.input}
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
-              placeholder="Type your answer or question…"
+              onKeyPress={(e) => e.key === 'Enter' && sendQuery()}
+              placeholder="Ask me anything about finance..."
             />
             <button
               style={theme.primaryBtn}
-              onClick={profileStep === "query" ? sendQuery : handleSubmit}
+              onClick={sendQuery}
             >
               Send
             </button>
@@ -364,7 +331,7 @@ const Chat = () => {
 /* ================= THEMES ================= */
 const light = {
   page: {
-    background: "#F5F7FA", // soft grey-blue background
+    background: "#F5F7FA",
     minHeight: "100vh",
     color: "#0F172A",
     fontFamily: "Inter, system-ui, sans-serif",
@@ -396,7 +363,6 @@ const light = {
     height: "calc(100vh - 64px)",
   },
 
-  /* ================= CHAT ================= */
   chat: {
     flex: 2,
     background: "#FFFFFF",
@@ -416,7 +382,7 @@ const light = {
     flex: 1,
     padding: 16,
     overflowY: "auto",
-    background: "#F8FAFC", // subtle contrast from card
+    background: "#F8FAFC",
   },
 
   chatInput: {
@@ -446,7 +412,7 @@ const light = {
   },
 
   user: {
-    background: "#2563EB", // calmer blue
+    background: "#2563EB",
     color: "#FFFFFF",
     padding: 12,
     borderRadius: 12,
@@ -466,7 +432,6 @@ const light = {
     cursor: "pointer",
   },
 
-  /* ================= GOALS ================= */
   goals: {
     flex: 1,
     background: "#FFFFFF",

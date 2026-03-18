@@ -8,3 +8,6 @@ __pycache__/
 
 # Optional: environment / local files
 progress.json
+
+src/tests/
+tests/

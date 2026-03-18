@@ -6,12 +6,13 @@ RISK_TONE_MAP = {
     "high": "growth-oriented"
 }
 
-def make_prompt(query, docs, profile, max_docs=3, max_chars=1500):
+def make_prompt(query, docs, profile, context=None, max_docs=3, max_chars=1500):
     """
     Build a personalized prompt for the LLM.
     - query: str
     - docs: list of {content, source, score}
-    - profile: dict with fields: age, income_range, risk, goal
+    - profile: dict (INTERNAL USE ONLY - never surfaced to user)
+    - context: dict of accumulated conversation state
     """
     # Truncate docs to avoid token blowup
     selected_docs = docs[:max_docs]
@@ -24,34 +25,31 @@ def make_prompt(query, docs, profile, max_docs=3, max_chars=1500):
         excerpts.append(f"- {snippet.strip()} [source: {d['source']}]")
         char_count += len(snippet)
 
-    # Profile tone
-    tone = RISK_TONE_MAP.get(profile.get("risk", "medium"), "balanced")
+    # Format context if available
+    context_str = ""
+    if context:
+        entries = [f"{k.replace('_', ' ').title()}: {v}" for k, v in context.items()]
+        context_str = "KNOWN CONTEXT (Use this to avoid asking repeat questions):\n" + "\n".join(entries) + "\n\n"
 
     prompt = f"""
-You are a financial assistant. Answer the query based on the retrieved documents.
-
-User profile:
-- Age: {profile.get("age", "N/A")}
-- Income: {profile.get("income_range", "N/A")}
-- Risk preference: {profile.get("risk", "N/A")} → tone: {tone}
-- Goal: {profile.get("goal", "N/A")}
+You are a financial assistant. Answer the query based on the retrieved documents and known context.
 
 User query: "{query}"
 
-Relevant information from documents:
+{context_str}Relevant information from documents:
 {textwrap.indent(chr(10).join(excerpts), "  ")}
 
 Instructions:
-1. Provide a short answer (50–150 words) in a {tone} tone.
-2. Include at least one inline citation using [source: filename].
-3. Add one actionable suggestion as a bullet point.
-4. If the documents don’t cover the topic, respond: 
-   "The available information does not directly cover your query. Please consult a financial advisor.""
+1. Provide a short, crisp answer (50–150 words).
+2. Include at least one inline citation using [source: filename] if relevant.
+3. Add one actionable suggestion as a bullet point if appropriate.
+4. If the documents don't cover the topic, respond: 
+   "The available information does not directly cover your query. Please consult a financial advisor."
     """
     return textwrap.dedent(prompt).strip()
 
 
-def make_chat_messages(query, docs, profile, live_data=None):
+def make_chat_messages(query, docs, profile, context=None, live_data=None):
     """
     Convert into chat messages format (for OpenAI/Anthropic API).
     Optionally prepend a Live Data block if live_data is provided.
@@ -72,7 +70,7 @@ def make_chat_messages(query, docs, profile, live_data=None):
         live_block +
         "Use the LIVE DATA section first (trusted, current). Cite live items as [live:source].\n"
         "If live data conflicts with KB documents, prefer live data for numeric values but still reference KB for context.\n\n" +
-        make_prompt(query, docs, profile)
+        make_prompt(query, docs, profile, context)
     )
     return [
         {"role": "system", "content": "You are a helpful financial assistant."},

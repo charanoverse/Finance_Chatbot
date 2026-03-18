@@ -34,10 +34,11 @@ class RealtimeFetcher:
 
     def _bootstrap_session(self):
         try:
-            self.session.get("https://www.nseindia.com", timeout=5)
+            # Short timeout to avoid blocking app startup
+            self.session.get("https://www.nseindia.com", timeout=1)
             time.sleep(0.1)
         except Exception as e:
-            log.debug("bootstrap session failed: %s", e)
+            log.debug("bootstrap session failed or timed out: %s", e)
 
     # -------------------------
     # Stocks
