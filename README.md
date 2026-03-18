@@ -79,6 +79,4 @@ API Documentation (Swagger UI) is available at `http://127.0.0.1:8000/docs`.
 - `POST /goal/save`: Save progress (amount) towards a specific goal.
 - `GET /goal/{user}`: Retrieve all active goals for a given user.
 
-## License
 
-This project is licensed under the MIT License.
